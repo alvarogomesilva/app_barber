@@ -1,4 +1,5 @@
 import React from 'react'
+import "react-toastify/dist/ReactToastify.css";
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
@@ -6,6 +7,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import { BrowserRouter } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+
 
 const styles = {
   global: (props) => ({
@@ -29,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <App />
+        <ToastContainer autoClose={1500} />
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>,

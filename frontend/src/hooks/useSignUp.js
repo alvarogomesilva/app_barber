@@ -1,25 +1,29 @@
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '../firebase/firebaseConfig';
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
-import { toast } from 'react-toastify'
+import { useAuthStore } from '../store/useAuthStore';
+import { useShowToast } from './useShowToast';
+
 export const useSignUp = () => {
     const [createUserWithEmailAndPassword, , loading, error] = useCreateUserWithEmailAndPassword(auth)
+    const loginUser = useAuthStore((state) => state.login)
+    const showToast = useShowToast()
 
     const signup = async (inputs) => {
         const { barbershop, name, email, password } = inputs
         if (!barbershop || !name || !email || !password) {
-            return toast.error("Preencha todos os campos!");
+            return showToast("Preencha todos os campos!", "error")
         }
 
         const barbersRef = collection(firestore, "barbers")
         const q = query(barbersRef, where("email", "==", email))
-        const querySnapshot = await getDocs(q); 
+        const querySnapshot = await getDocs(q);
 
         if (!querySnapshot.empty) {
-            return toast.error('Email já existente!')
-        } 
+            return showToast("Email já existente!", "error")
+        }
 
-        if (password.length < 6) return toast.error('A senha precisa ter pelo menos 6 caracteres!')
+        if (password.length < 6) return showToast("Senha precisa ter no minimo 6 caracteres!", "error")
 
         try {
             const newUser = await createUserWithEmailAndPassword(email, password)
@@ -43,8 +47,9 @@ export const useSignUp = () => {
                 };
 
                 await setDoc(doc(firestore, "barbers", newUser.user.uid), userDoc)
-
-                toast.success("Cadastrado com sucesso!");
+                localStorage.setItem("user-info", JSON.stringify(userDoc));
+                loginUser(newUser)
+                showToast("Seja bem-vindo!", "success")
             }
         } catch (error) {
             console.log(error)

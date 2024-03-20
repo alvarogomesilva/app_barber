@@ -1,19 +1,21 @@
 
-import { Button, Input } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-//import useLogin from "../../hooks/useLogin";
+import { useSignIn } from '../../hooks/useSignIn';
 
 export const SignIn = () => {
 	const [inputs, setInputs] = useState({
 		email: "",
 		password: "",
 	});
-	//const { loading, error, login } = useLogin();
+
+	const { signin, loading, error } = useSignIn()
+	
 	return (
 		<>
 			<Input
-                borderRadius={5}
-                focusBorderColor="yellow.500"
+				borderRadius={5}
+				focusBorderColor="yellow.500"
 				placeholder='Email'
 				fontSize={14}
 				type='email'
@@ -22,8 +24,8 @@ export const SignIn = () => {
 				onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
 			/>
 			<Input
-                borderRadius={5}
-                focusBorderColor="yellow.500"
+				borderRadius={5}
+				focusBorderColor="yellow.500"
 				placeholder='Password'
 				fontSize={14}
 				size={"md"}
@@ -31,12 +33,20 @@ export const SignIn = () => {
 				value={inputs.password}
 				onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
 			/>
-			
+			{error && (
+				<Alert status='error' fontSize={13} p={2} borderRadius={4}>
+					<AlertIcon fontSize={12} />
+					<Text>Email/Senha incorretos!</Text>
+				</Alert>
+			)}
+
 			<Button
 				w={"full"}
 				colorScheme='yellow'
 				size={"md"}
 				fontSize={14}
+				isLoading={loading}
+				onClick={() => signin(inputs)}
 			>
 				Log in
 			</Button>

@@ -1,16 +1,17 @@
-import { Avatar, Box, Flex, Image, Link, Tooltip } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Image, Link, Tooltip } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 
 import { BiLogOut } from 'react-icons/bi'
 import { RxScissors } from "react-icons/rx";
 import { MdDashboard } from "react-icons/md";
+import { useLogout } from "../../hooks/useLogout";
 
 export const SideBar = () => {
-
+    const { handleLogout, isLoggingOut } = useLogout();
 
     const sidebarItems = [
         {
-            icon: <MdDashboard size={25}/>,
+            icon: <MdDashboard size={25} />,
             text: "Dashboard",
             link: "/"
         },
@@ -92,24 +93,27 @@ export const SideBar = () => {
                     openDelay={500}
                     display={{ base: 'block', md: "none" }}
                 >
-                    <Link
-                        display={"flex"}
-                        to={"/auth"}
-                        as={RouterLink}
-                        alignItems={"center"}
-                        gap={4}
-                        _hover={{ bg: "whiteAlpha.400" }}
-                        borderRadius={6}
-                        p={2}
-                        w={{ base: 10, md: "full" }}
-                        justifyContent={{ base: "center", md: "flex-start" }}
-                        mt={"auto"}
+                    <Flex
+                        onClick={handleLogout}
+						alignItems={"center"}
+						gap={4}
+						_hover={{ bg: "whiteAlpha.400" }}
+						borderRadius={6}
+						p={2}
+						w={{ base: 10, md: "full" }}
+						mt={"auto"}
+						justifyContent={{ base: "center", md: "flex-start" }}
                     >
                         <BiLogOut size={25} />
-                        <Box display={{ base: "none", md: "block" }}>
+                        <Button
+                            display={{ base: "none", md: "block" }}
+                            variant={"ghost"}
+                            _hover={{ bg: "transparent" }}
+                            isLoading={isLoggingOut}
+                        >
                             Logout
-                        </Box>
-                    </Link>
+                        </Button>
+                    </Flex>
                 </Tooltip>
 
             </Flex>

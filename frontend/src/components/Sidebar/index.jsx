@@ -1,6 +1,6 @@
-import { Avatar, Box, Button, Flex, Image, Link, Tooltip } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Image, Link, Text, Tooltip } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
-
+import { useAuthStore } from '../../store/useAuthStore'
 import { BiLogOut } from 'react-icons/bi'
 import { RxScissors } from "react-icons/rx";
 import { MdDashboard } from "react-icons/md";
@@ -8,7 +8,7 @@ import { useLogout } from "../../hooks/useLogout";
 
 export const SideBar = () => {
     const { handleLogout, isLoggingOut } = useLogout();
-
+    const authUser = useAuthStore((state) => state.user)
     const sidebarItems = [
         {
             icon: <MdDashboard size={25} />,
@@ -19,12 +19,6 @@ export const SideBar = () => {
             icon: <RxScissors size={25} />,
             text: "Cortes"
         },
-
-        {
-            icon: <Avatar size={"sm"} name="Burak Orkmez" src="/profilepic.png" />,
-            text: "Conta",
-            link: "/asprogrammer"
-        }
     ]
 
     return (
@@ -32,7 +26,7 @@ export const SideBar = () => {
             height={"100vh"}
             borderRight={"1px solid"}
             borderColor={"whiteAlpha.300"}
-            py={8}
+            py={4}
             position={"sticky"}
             top={0}
             left={0}
@@ -84,37 +78,63 @@ export const SideBar = () => {
                         </Tooltip>
                     ))}
                 </Flex>
-                <Tooltip
+                <Flex direction={"column"} mt={"auto"} gap={2}>
+                    <Tooltip
 
-                    hasArrow={true}
-                    label={'Logout'}
-                    placement="right"
-                    ml={1}
-                    openDelay={500}
-                    display={{ base: 'block', md: "none" }}
-                >
-                    <Flex
-                        onClick={handleLogout}
-						alignItems={"center"}
-						gap={4}
-						_hover={{ bg: "whiteAlpha.400" }}
-						borderRadius={6}
-						p={2}
-						w={{ base: 10, md: "full" }}
-						mt={"auto"}
-						justifyContent={{ base: "center", md: "flex-start" }}
+                        hasArrow={true}
+
+                        placement="right"
+                        ml={1}
+                        openDelay={500}
+                        display={{ base: 'block', md: "none" }}
                     >
-                        <BiLogOut size={25} />
-                        <Button
-                            display={{ base: "none", md: "block" }}
-                            variant={"ghost"}
-                            _hover={{ bg: "transparent" }}
-                            isLoading={isLoggingOut}
+                        <Link
+                            display={"flex"}
+                            to={"/profile"}
+                            as={RouterLink}
+                            alignItems={"center"}
+                            gap={4}
+                            _hover={{ bg: "whiteAlpha.400" }}
+                            borderRadius={6}
+                            p={2}
+                            w={{ base: 10, md: "full" }}
+                            justifyContent={{ base: "center", md: "flex-start" }}
                         >
-                            Logout
+                            <Avatar size={"sm"} name="Avatar" src={authUser?.avatar || null} />
+                            <Box display={{ base: "none", md: "block" }}>
+                                Minha Conta
+                            </Box>
+                        </Link>
+                    </Tooltip>
+                    <Tooltip
+
+                        hasArrow={true}
+
+                        placement="right"
+                        ml={1}
+                        openDelay={500}
+                        display={{ base: 'block', md: "none" }}
+                    >
+                        <Button
+                            isLoading={isLoggingOut}
+                            display={"flex"}
+                            alignItems={"center"}
+                            gap={4}
+                            onClick={handleLogout}
+                            backgroundColor={"transparent"}
+                            _hover={{ bg: "whiteAlpha.400" }}
+                            borderRadius={6}
+                            p={2}
+                            w={{ base: 10, md: "full" }}
+                            justifyContent={{ base: "center", md: "flex-start" }}
+                        >
+                            <BiLogOut size={25} />
+                            <Box display={{ base: "none", md: "block" }}>
+                                Sair
+                            </Box>
                         </Button>
-                    </Flex>
-                </Tooltip>
+                    </Tooltip>
+                </Flex>
 
             </Flex>
         </Box>

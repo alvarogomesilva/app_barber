@@ -17,7 +17,8 @@ export const SideBar = () => {
         },
         {
             icon: <RxScissors size={25} />,
-            text: "Cortes"
+            text: "Cortes",
+            link: "/cuts"
         },
     ]
 

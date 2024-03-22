@@ -38,7 +38,7 @@ export default function ProfilePage() {
                 maxH={"450px"}
                 padding={5}
                 my={10}
-                border={"1px solid gray"}
+                
                 borderRadius={4}
             >
                 <Flex direction={"column"} alignItems={"center"} gap={5} my={5}>

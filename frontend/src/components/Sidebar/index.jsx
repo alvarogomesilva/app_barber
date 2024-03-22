@@ -3,7 +3,9 @@ import { Link as RouterLink } from "react-router-dom"
 import { useAuthStore } from '../../store/useAuthStore'
 import { BiLogOut } from 'react-icons/bi'
 import { RxScissors } from "react-icons/rx";
-import { MdDashboard } from "react-icons/md";
+import { GiHairStrands } from "react-icons/gi";
+import { FiUser } from "react-icons/fi";
+import { FiClock } from "react-icons/fi";
 import { useLogout } from "../../hooks/useLogout";
 
 export const SideBar = () => {
@@ -11,14 +13,24 @@ export const SideBar = () => {
     const authUser = useAuthStore((state) => state.user)
     const sidebarItems = [
         {
-            icon: <MdDashboard size={25} />,
-            text: "Dashboard",
+            icon: <GiHairStrands size={25}/>,
+            text: "Agendamentos",
             link: "/"
         },
         {
             icon: <RxScissors size={25} />,
-            text: "Cortes",
-            link: "/cuts"
+            text: "Modelos",
+            link: "/models"
+        },
+        {
+            icon: <FiUser size={25} />,
+            text: "Serviços",
+            link: "/services"
+        },
+        {
+            icon: <FiClock size={25} />,
+            text: "Horários",
+            link: "/hours"
         },
     ]
 

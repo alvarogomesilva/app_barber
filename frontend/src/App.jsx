@@ -6,7 +6,7 @@ import { PageLayout } from "./components/PageLayout";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
-import HairCutPage from "./pages/HairCutPage";
+import ModelCutPage from "./pages/ModelCutPage";
 
 function App() {
   const [authUser] = useAuthState(auth)
@@ -17,7 +17,7 @@ function App() {
         <Route path='/auth' element={!authUser ? <AuthPage /> : <Navigate to='/' />} />
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to='/auth' />} />
         <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to='/auth' />} />
-        <Route path='/cuts' element={authUser ? <HairCutPage /> : <Navigate to='/auth' />} />
+        <Route path='/models' element={authUser ? <ModelCutPage /> : <Navigate to='/auth' />} />
       </Routes>
     </PageLayout>
   )

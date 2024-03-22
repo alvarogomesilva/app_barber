@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { usePreviewImg } from '../../hooks/usePreviewImg'
 import { useCreateCut } from '../../hooks/useCreateCut'
 
-export default function HairCutPage() {
+export default function ModelCutPage() {
 
     const [inputs, setInputs] = useState({
         name: "",
@@ -115,7 +115,9 @@ export default function HairCutPage() {
 
                     <ModalFooter>
                         <Button
-                            colorScheme='yellow' w={"full"}
+                            size={"lg"}
+                            colorScheme='yellow'
+                            w={"full"}
                             onClick={handleCut}
                             isLoading={loading}
                         >

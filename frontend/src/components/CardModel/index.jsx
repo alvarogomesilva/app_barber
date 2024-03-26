@@ -1,78 +1,77 @@
-import { Box, Button, Divider, Flex, FormControl, Grid, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, useDisclosure } from '@chakra-ui/react'
-import { useRef, useState } from 'react'
-import { usePreviewImg } from '../../hooks/usePreviewImg'
-import { useCreateModel } from '../../hooks/models/useCreateModel'
-import { CardModel } from '../../components/CardModel'
-import { useGetModel } from '../../hooks/models/useGetModel'
+import { Button, Card, CardBody, Flex, FormControl, Heading, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 
-export default function ModelCutPage() {
+import { MdEdit } from "react-icons/md";
+import { IoMdTrash } from "react-icons/io";
+import { useDeleteModel } from '../../hooks/models/useDeleteModel'
+import { useRef, useState } from "react";
+import { usePreviewImg } from "../../hooks/usePreviewImg";
+import { useUpdateModel } from "../../hooks/models/useUpdateModel";
+
+export const CardModel = ({ model }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { selectedFile, setSelectedFile, handleImageChange } = usePreviewImg()
+    const { loading, updateModel } = useUpdateModel()
+    const { deleteModel } = useDeleteModel()
     const [inputs, setInputs] = useState({
-        name: "",
-        price: ""
+        name: model.name,
+        price: model.price,
+        banner: model.bannerId
     })
 
     const initialRef = useRef(null)
     const finalRef = useRef(null)
     const fileRef = useRef(null)
 
-    const { selectedFile, handleImageChange, setSelectedFile } = usePreviewImg();
-    const { createModel, loading } = useCreateModel()
-    const { models } = useGetModel()
-    
-    const closeModal = () => {
-        setSelectedFile(null)
-        setInputs({
-            name: "",
-            price: ""
-        })
-        onClose()
-    }
+    const closeModal = () => onClose()
 
-    const handleModel = async () => {
-        try {
-            await createModel(inputs, selectedFile)
-            closeModal()
-        } catch (error) {
-            console.log(error)
-        }
+    const handleDelete = async () => await deleteModel(model.id, model.bannerId)
+
+    const hanleUpdate = async () => {
+        await updateModel(model.id, inputs, selectedFile)
+        closeModal()
     }
 
     return (
         <>
-            <Flex m={5} direction={"column"}>
-                <Flex p={5} alignItems={"center"} gap={5} >
-
-                    <Text
-                        fontSize={{ base: 'lg', md: '4xl' }}
-                        color="yellow.500"
+            <Card maxW='sm'>
+                <CardBody bg={"black"}>
+                    <Flex
+                        opacity={0}
+                        _hover={{ opacity: 1 }}
+                        position={"absolute"}
+                        top={0}
+                        left={0}
+                        right={0}
+                        bottom={0}
+                        bg={"blackAlpha.700"}
+                        transition={"all 0.3s ease"}
+                        zIndex={1}
+                        justifyContent={"center"}
                     >
-                        Modelos de Corte
-                    </Text>
-                    <Button
-                        color="yellow.500"
-                        onClick={onOpen}
-                    >
-                        Cadastrar novo
-                    </Button>
-                </Flex>
-                <Divider />
-                <Grid
-                    gridTemplateColumns={{
-                        md: "repeat(1, 1fr)",
-                        lg: "repeat(2, 1fr)",
-                        xl: "repeat(3, 1fr)"
-                    }}
-                    gap={10}
-                >
-                    {models.map((model) => (
-                        <Box key={model.bannerId} h="100%"> {/* Adicione um contêiner pai com altura de 100% */}
-                        <CardModel model={model} />
-                    </Box>
-                    ))}
-                </Grid>
-            </Flex>
+                        <Flex alignItems={"center"} justifyContent={"center"} gap={10}>
+                            <Button onClick={() => onOpen()}>
+                                <MdEdit size={25} />
+                            </Button>
+                            <Button onClick={handleDelete}>
+                                <IoMdTrash size={25} />
+                            </Button>
+                        </Flex>
+                    </Flex>
 
+                    <Image
+                        objectFit={"cover"}
+                        src={model.banner}
+                        alt='Green double couch with wooden legs'
+                        borderRadius='lg'
+                    />
+                    <Flex mt='6' spacing='3' justifyContent={"space-between"} alignItems={"baseline"}>
+                        <Heading size='md'>{model.name}</Heading>
+                        <Text color='yellow.500' fontSize='2xl'>
+                            ${model.price}
+                        </Text>
+                    </Flex>
+                </CardBody>
+            </Card>
 
             <Modal
                 initialFocusRef={initialRef}
@@ -93,7 +92,7 @@ export default function ModelCutPage() {
                     >
 
                         <Image
-                            src={selectedFile || null}
+                            src={selectedFile || model.banner}
                             borderRadius={"lg"}
                             w={"full"}
                             h={200}
@@ -140,10 +139,10 @@ export default function ModelCutPage() {
                             size={"lg"}
                             colorScheme='yellow'
                             w={"full"}
-                            onClick={handleModel}
+                            onClick={hanleUpdate}
                             isLoading={loading}
                         >
-                            Cadastrar
+                            Atualizar
                         </Button>
                     </ModalFooter>
                 </ModalContent>

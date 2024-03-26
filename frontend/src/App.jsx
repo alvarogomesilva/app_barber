@@ -14,8 +14,8 @@ function App() {
   return (
     <PageLayout>
       <Routes>
-        <Route path='/auth' element={!authUser ? <AuthPage /> : <Navigate to='/' />} />
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to='/auth' />} />
+        <Route path='/auth' element={!authUser ? <AuthPage /> : <Navigate to='/' />} />
         <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to='/auth' />} />
         <Route path='/models' element={authUser ? <ModelCutPage /> : <Navigate to='/auth' />} />
       </Routes>

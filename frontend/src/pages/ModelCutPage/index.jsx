@@ -19,7 +19,7 @@ export default function ModelCutPage() {
     const { selectedFile, handleImageChange, setSelectedFile } = usePreviewImg();
     const { createModel, loading } = useCreateModel()
     const { models } = useGetModel()
-    
+
     const closeModal = () => {
         setSelectedFile(null)
         setInputs({
@@ -63,15 +63,17 @@ export default function ModelCutPage() {
                         lg: "repeat(2, 1fr)",
                         xl: "repeat(3, 1fr)"
                     }}
-                    gap={10}
+                    
                 >
+
                     {models.map((model) => (
-                        <Box key={model.bannerId} h="100%"> {/* Adicione um contêiner pai com altura de 100% */}
-                        <CardModel model={model} />
-                    </Box>
+
+                        <CardModel model={model} key={model.id} />
+
                     ))}
                 </Grid>
             </Flex>
+
 
 
             <Modal

@@ -58,7 +58,7 @@ export const SideBar = () => {
                     }}
                     w={10}
                 >
-                    <Image src="/auth.png" h={6} cursor={"pointer"} alt="Logo" />
+                    <Image src="/penteado.png" h={6} cursor={"pointer"} alt="Logo" />
                 </Link>
                 <Flex direction={"column"} gap={5} cursor={"pointer"}>
                     {sidebarItems.map((item, index) => (

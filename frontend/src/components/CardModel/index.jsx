@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, Flex, FormControl, Heading, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Card, CardBody, Flex, FormControl, Heading, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useDisclosure } from "@chakra-ui/react";
 
 import { MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
@@ -59,6 +59,8 @@ export const CardModel = ({ model }) => {
                     </Flex>
 
                     <Image
+                        w={"335px"}
+                        h={"225px"}
                         objectFit={"cover"}
                         src={model.banner}
                         alt='Green double couch with wooden legs'
@@ -67,7 +69,7 @@ export const CardModel = ({ model }) => {
                     <Flex mt='6' spacing='3' justifyContent={"space-between"} alignItems={"baseline"}>
                         <Heading size='md'>{model.name}</Heading>
                         <Text color='yellow.500' fontSize='2xl'>
-                            ${model.price}
+                            R${model.price}
                         </Text>
                     </Flex>
                 </CardBody>
